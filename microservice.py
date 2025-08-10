@@ -1,5 +1,4 @@
 import zmq
-import json
 import rsa
 import base64
 from cryptography.fernet import Fernet
@@ -20,7 +19,6 @@ def main():
             print(f"Received request: {message}")
 
             request_type = message.get("type")
-            response = {}
 
             if request_type == "generate_keys":
                 response = generate_keys()
