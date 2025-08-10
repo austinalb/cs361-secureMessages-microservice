@@ -12,8 +12,9 @@ def main():
     socket.bind("tcp://*:5555")
     print("Microservice started. Listening on port 5555...")
 
-    while True:
-        try:
+
+    try:
+        while True:
             message = socket.recv_json()
             print(f"Received request: {message}")
 
@@ -68,10 +69,19 @@ def main():
             
             socket.send_json(response)
 
-        except Exception as e:
-            print(f"An error occurred: {e}")
-            error_response = {"error": str(e)}
-            socket.send_json(error_response)
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        error_response = {"error": str(e)}
+        socket.send_json(error_response)
+        socket.close()
+        context.term()
+        exit(1)
+
+    except KeyboardInterrupt:
+        print("Keyboard interrupted received. Exiting.")
+        socket.close()
+        context.term()
+        exit(1)
 
 
 if __name__ == "__main__":
