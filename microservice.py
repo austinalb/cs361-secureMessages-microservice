@@ -4,13 +4,15 @@ import rsa
 import base64
 from cryptography.fernet import Fernet
 
+PORT = 55511
+
 def main():
     """Sets up the ZeroMQ server and listens for requests."""
     
     context = zmq.Context()
     socket = context.socket(zmq.REP)
-    socket.bind("tcp://*:5555")
-    print("Microservice started. Listening on port 5555...")
+    socket.bind(f"tcp://*:{PORT}")
+    print(f"Microservice started. Listening on port {PORT}...")
 
 
     try:
